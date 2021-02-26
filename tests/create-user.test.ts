@@ -4,6 +4,7 @@ import { UserBuilder } from './builders';
 
 import app from '@/main/app';
 import { UserRepository } from '@/tests/repositories';
+import { removeProps } from '@/utils';
 
 const userRepository = new UserRepository();
 
@@ -21,13 +22,19 @@ describe('SignUp', () => {
     const response = await supertest(app).post('/signup').send(user);
 
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({
-      ...user,
+
+    expect(response.body).not.toHaveProperty('password');
+    expect(response.body).not.toHaveProperty('confirmPassword');
+
+    expect(
+      removeProps(response.body, ['password', 'confirmPassword'])
+    ).toMatchObject({
+      ...removeProps(user, ['password', 'confirmPassword']),
       birthDate: user.birthDate.toISOString(),
     });
 
-    const usersCount = await userRepository.count();
-    expect(usersCount).toBe(1);
+    const createdUser = await userRepository.findByEmail(user.email);
+    expect(createdUser.password).not.toBe(user.password);
   });
 
   test('badRequest when try create a user that already exists', async () => {

@@ -1,5 +1,6 @@
 import { CreateUserService } from '@/data/services';
 import { LocalMemoryUserRepository } from '@/infra/repositories';
+import { BcryptEncrypter } from '@/infra/utils';
 import { SignUpController } from '@/presentation/controllers';
 import { ValidatorComposite } from '@/validation/composite';
 import {
@@ -12,7 +13,11 @@ import {
 export class SignUpControllerFactory {
   static build() {
     const localMemoryUserRepository = new LocalMemoryUserRepository();
-    const createUserService = new CreateUserService(localMemoryUserRepository);
+    const bcryptEncrypter = new BcryptEncrypter();
+    const createUserService = new CreateUserService(
+      localMemoryUserRepository,
+      bcryptEncrypter
+    );
     const bodyValidator = new ValidatorComposite([
       new RequiredValidator('email'),
       new RequiredValidator('name'),

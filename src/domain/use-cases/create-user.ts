@@ -1,5 +1,3 @@
-import { User } from '@/domain/models';
-
 export interface CreateUser {
   create: (userParams: CreateUser.Params) => Promise<CreateUser.Result>;
 }
@@ -12,5 +10,9 @@ export namespace CreateUser {
     password: string;
   };
 
-  export type Result = User;
+  export type Result = {
+    email: string;
+    name: string;
+    birthDate: Date;
+  };
 }
