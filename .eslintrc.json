@@ -29,6 +29,9 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
 
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": ["error"],
+
     // Import configurations
     "import/extensions": ["error", "always", { "ts": "never", "js": "never" }],
     "import/order": [
