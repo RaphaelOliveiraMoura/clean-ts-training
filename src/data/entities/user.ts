@@ -4,7 +4,7 @@ export interface UserEntityDTO {
   email: string;
   name: string;
   password: string;
-  birthDate: Date;
+  birthDate: string;
 }
 
-export type UserEntity = User;
+export class UserEntity extends User {}

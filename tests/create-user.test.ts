@@ -4,7 +4,7 @@ import { UserBuilder } from './builders';
 
 import app from '@/main/app';
 import { UserRepository } from '@/tests/repositories';
-import { removeProps } from '@/utils';
+import { omit } from '@/utils';
 
 const userRepository = new UserRepository();
 
@@ -26,12 +26,8 @@ describe('SignUp', () => {
     expect(response.body).not.toHaveProperty('password');
     expect(response.body).not.toHaveProperty('confirmPassword');
 
-    expect(
-      removeProps(response.body, ['password', 'confirmPassword'])
-    ).toMatchObject({
-      ...removeProps(user, ['password', 'confirmPassword']),
-      birthDate: user.birthDate.toISOString(),
-    });
+    const omitPros = ['password', 'confirmPassword'];
+    expect(omit(response.body, omitPros)).toMatchObject(omit(user, omitPros));
 
     const createdUser = await userRepository.findByEmail(user.email);
     expect(createdUser.password).not.toBe(user.password);
@@ -127,6 +123,47 @@ describe('SignUp', () => {
     expect(response.body).toEqual({
       error:
         'password need have minimum eight characters and at least one letter and one number',
+    });
+
+    const usersCount = await userRepository.count();
+    expect(usersCount).toBe(0);
+  });
+
+  test('badRequest when try create a user with invalid birthDate', async () => {
+    const user = new UserBuilder({}).build({ excludeProps: ['id'] });
+
+    const invalidUser = {
+      ...user,
+      birthDate: 'invalid_date',
+    };
+
+    const response = await supertest(app).post('/signup').send(invalidUser);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      error: 'birthDate must be date',
+    });
+
+    const usersCount = await userRepository.count();
+    expect(usersCount).toBe(0);
+  });
+
+  test('badRequest when try create a user with future birthDate', async () => {
+    const user = new UserBuilder({}).build({ excludeProps: ['id'] });
+
+    const futureDate = new Date();
+    futureDate.setSeconds(futureDate.getSeconds() + 1);
+
+    const invalidUser = {
+      ...user,
+      birthDate: futureDate,
+    };
+
+    const response = await supertest(app).post('/signup').send(invalidUser);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      error: 'birthDate must be a past date',
     });
 
     const usersCount = await userRepository.count();

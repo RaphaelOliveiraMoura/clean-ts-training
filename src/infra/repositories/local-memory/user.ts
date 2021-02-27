@@ -12,14 +12,16 @@ export class LocalMemoryUserRepository implements UserRepository {
 
   async create(user: UserEntityDTO): Promise<UserEntity> {
     const id = users.length;
-    const newUser = LocalMemoryUserEntity.parse({
+    const userEntity = new UserEntity({
+      ...user,
       id,
+      birthDate: new Date(user.birthDate),
       createdAt: new Date(),
       updatedAt: new Date(),
-      ...user,
     });
-    users.push(newUser);
-    return LocalMemoryUserEntity.unparse(newUser);
+    const parsedUser = LocalMemoryUserEntity.parse(userEntity);
+    users.push(parsedUser);
+    return LocalMemoryUserEntity.unparse(parsedUser);
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

@@ -4,7 +4,7 @@ type User = {
   id: number;
   email: string;
   name: string;
-  birthDate: Date;
+  birthDate: string;
   password: string;
   confirmPassword: string;
 };
@@ -21,7 +21,7 @@ export class UserBuilder {
     name = faker.name.firstName(),
     email = faker.internet.email(),
     password = `5${faker.internet.password(8, false, /[a-z]/)}`,
-    birthDate = faker.date.past(),
+    birthDate = faker.date.past().toISOString(),
   }: Partial<User>) {
     this.user = {
       id,

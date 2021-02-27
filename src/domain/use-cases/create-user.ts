@@ -6,7 +6,7 @@ export namespace CreateUser {
   export type Params = {
     email: string;
     name: string;
-    birthDate: Date;
+    birthDate: string;
     password: string;
   };
 

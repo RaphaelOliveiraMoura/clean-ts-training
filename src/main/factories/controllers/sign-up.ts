@@ -8,6 +8,7 @@ import {
   RequiredValidator,
   EmailValidator,
   PasswordValidator,
+  DateValidator,
 } from '@/validation/validators';
 
 export class SignUpControllerFactory {
@@ -26,6 +27,7 @@ export class SignUpControllerFactory {
       new CompareFieldsValidator('password', 'confirmPassword'),
       new EmailValidator('email'),
       new PasswordValidator('password'),
+      new DateValidator('birthDate', { past: true, parse: true }),
     ]);
     const signUpController = new SignUpController(
       createUserService,

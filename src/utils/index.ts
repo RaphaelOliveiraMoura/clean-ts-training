@@ -1,2 +1,2 @@
 export * from './custom-error';
-export * from './remove-props';
+export * from './omit-props';

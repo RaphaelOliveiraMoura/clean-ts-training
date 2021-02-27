@@ -35,11 +35,11 @@ export class LocalMemoryUserEntity {
     updated_at,
     ...restEntity
   }: LocalMemoryUserEntity): UserEntity {
-    return {
+    return new UserEntity({
       ...restEntity,
       birthDate: birth_date,
       createdAt: created_at,
       updatedAt: updated_at,
-    };
+    });
   }
 }
