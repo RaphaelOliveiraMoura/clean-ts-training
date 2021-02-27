@@ -5,6 +5,7 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
+  HttpResponseError,
   ok,
   serverError,
 } from '@/presentation/contracts';
@@ -17,7 +18,9 @@ export class SignUpController implements Controller {
     private readonly validator: Validation
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(
+    httpRequest: HttpRequest<CreateUser.Params>
+  ): Promise<HttpResponse<CreateUser.Result | HttpResponseError>> {
     try {
       const error = this.validator.validate(httpRequest.body);
 

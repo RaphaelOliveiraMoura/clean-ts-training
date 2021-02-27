@@ -30,6 +30,8 @@ export class CreateUserService implements CreateUser {
       name: createdUser.name,
       email: createdUser.email,
       birthDate: createdUser.birthDate,
+      createdAt: createdUser.createdAt,
+      updatedAt: createdUser.updatedAt,
     };
   }
 }

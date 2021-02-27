@@ -1,4 +1,4 @@
-import { UserEntity, UserEntityDTO } from '@/infra/entities';
+import { UserEntity, UserEntityDTO } from '@/data/entities';
 
 export interface UserRepository {
   count: () => Promise<number>;

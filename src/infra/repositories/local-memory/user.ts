@@ -1,7 +1,9 @@
-import { UserRepository } from '@/data/contracts';
-import { UserEntity, UserEntityDTO } from '@/infra/entities';
+import { LocalMemoryUserEntity } from './entities';
 
-const users: Array<UserEntity> = [];
+import { UserRepository } from '@/data/contracts';
+import { UserEntity, UserEntityDTO } from '@/data/entities';
+
+const users: Array<LocalMemoryUserEntity> = [];
 
 export class LocalMemoryUserRepository implements UserRepository {
   async count(): Promise<number> {
@@ -10,14 +12,22 @@ export class LocalMemoryUserRepository implements UserRepository {
 
   async create(user: UserEntityDTO): Promise<UserEntity> {
     const id = users.length;
-    const newUser = { id, ...user };
+    const newUser = LocalMemoryUserEntity.parse({
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ...user,
+    });
     users.push(newUser);
-    return newUser;
+    return LocalMemoryUserEntity.unparse(newUser);
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
     const findedUser = users.find((user) => user.email === email);
-    return findedUser;
+
+    if (!findedUser) return null;
+
+    return LocalMemoryUserEntity.unparse(findedUser);
   }
 
   async deleteAll(): Promise<boolean> {

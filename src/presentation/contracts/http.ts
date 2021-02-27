@@ -7,7 +7,7 @@ export interface HttpResponse<T = any> {
   body: T;
 }
 
-type HttpResponseError = {
+export type HttpResponseError = {
   error: string;
 };
 

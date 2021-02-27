@@ -14,5 +14,7 @@ export namespace CreateUser {
     email: string;
     name: string;
     birthDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
   };
 }
