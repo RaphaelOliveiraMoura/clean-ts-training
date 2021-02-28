@@ -1,5 +1,4 @@
-import { InvalidBirthDateError } from '../errors';
-
+import { InvalidBirthDateError } from '@/domain/errors';
 import { Validation } from '@/validation/contracts';
 import { DateValidator } from '@/validation/validators';
 

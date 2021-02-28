@@ -1,5 +1,4 @@
-import { Encrypter, Hasher } from '../contracts';
-
+import { Encrypter, Hasher } from '@/data/contracts';
 import { InvalidCredentialsError } from '@/domain/errors';
 import { SignIn } from '@/domain/use-cases';
 import { UserRepository } from '@/tests/repositories';
