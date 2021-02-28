@@ -11,28 +11,26 @@ import {
   DateValidator,
 } from '@/validation/validators';
 
-export class SignUpControllerFactory {
-  static build() {
-    const localMemoryUserRepository = new LocalMemoryUserRepository();
-    const bcryptEncrypter = new BcryptEncrypter();
-    const createUserService = new CreateUserService(
-      localMemoryUserRepository,
-      bcryptEncrypter
-    );
-    const bodyValidator = new ValidatorComposite([
-      new RequiredValidator('email'),
-      new RequiredValidator('name'),
-      new RequiredValidator('birthDate'),
-      new RequiredValidator('password'),
-      new CompareFieldsValidator('password', 'confirmPassword'),
-      new EmailValidator('email'),
-      new PasswordValidator('password'),
-      new DateValidator('birthDate', { past: true, parse: true }),
-    ]);
-    const signUpController = new SignUpController(
-      createUserService,
-      bodyValidator
-    );
-    return signUpController;
-  }
+export function buildSingUpController() {
+  const localMemoryUserRepository = new LocalMemoryUserRepository();
+  const bcryptEncrypter = new BcryptEncrypter();
+  const createUserService = new CreateUserService(
+    localMemoryUserRepository,
+    bcryptEncrypter
+  );
+  const bodyValidator = new ValidatorComposite([
+    new RequiredValidator('email'),
+    new RequiredValidator('name'),
+    new RequiredValidator('birthDate'),
+    new RequiredValidator('password'),
+    new CompareFieldsValidator('password', 'confirmPassword'),
+    new EmailValidator('email'),
+    new PasswordValidator('password'),
+    new DateValidator('birthDate', { past: true, parse: true }),
+  ]);
+  const signUpController = new SignUpController(
+    createUserService,
+    bodyValidator
+  );
+  return signUpController;
 }
