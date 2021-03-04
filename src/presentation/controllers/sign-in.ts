@@ -1,5 +1,3 @@
-import { BodyValidationError } from '../errors';
-
 import { SignInService } from '@/data/services/sign-in';
 import { SignIn } from '@/domain/use-cases';
 import {
@@ -11,6 +9,7 @@ import {
   ok,
   serverError,
 } from '@/presentation/contracts';
+import { BodyValidationError } from '@/presentation/errors';
 import { Validation } from '@/validation/contracts';
 
 export class SignInController implements Controller {

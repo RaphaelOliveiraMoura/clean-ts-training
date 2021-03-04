@@ -1,8 +1,7 @@
 import supertest from 'supertest';
 
-import { UserBuilder } from './builders';
-
 import app from '@/main/app';
+import { UserBuilder } from '@/tests/builders';
 import { UserRepository } from '@/tests/repositories';
 import { omit } from '@/utils';
 
