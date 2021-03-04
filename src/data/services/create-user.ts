@@ -26,12 +26,6 @@ export class CreateUserService implements CreateUser {
 
     const createdUser = await this.userRepository.create(user);
 
-    return {
-      name: createdUser.name,
-      email: createdUser.email,
-      birthDate: createdUser.birthDate,
-      createdAt: createdUser.createdAt,
-      updatedAt: createdUser.updatedAt,
-    };
+    return createdUser;
   }
 }

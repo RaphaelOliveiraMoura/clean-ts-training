@@ -13,14 +13,13 @@ export class LocalMemoryUserRepository implements UserRepository {
 
   async create(user: CreateUser.Params): Promise<User> {
     const id = users.length;
-    const userEntity = new User({
+    const parsedUser = LocalMemoryUserEntity.parse({
       ...user,
       id,
       birthDate: new Date(user.birthDate),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    const parsedUser = LocalMemoryUserEntity.parse(userEntity);
     users.push(parsedUser);
     return LocalMemoryUserEntity.unparse(parsedUser);
   }

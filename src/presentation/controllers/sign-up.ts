@@ -10,6 +10,7 @@ import {
   serverError,
 } from '@/presentation/contracts';
 import { BodyValidationError } from '@/presentation/errors';
+import { UserViewModel } from '@/presentation/view-models';
 import { Validation } from '@/validation/contracts';
 
 export class SignUpController implements Controller {
@@ -20,7 +21,7 @@ export class SignUpController implements Controller {
 
   async handle(
     httpRequest: HttpRequest<CreateUser.Params>
-  ): Promise<HttpResponse<CreateUser.Result | HttpResponseError>> {
+  ): Promise<HttpResponse<UserViewModel | HttpResponseError>> {
     try {
       const error = this.validator.validate(httpRequest.body);
 
@@ -28,7 +29,7 @@ export class SignUpController implements Controller {
 
       const createdUser = await this.createUserService.create(httpRequest.body);
 
-      return ok(createdUser);
+      return ok(UserViewModel.parse(createdUser));
     } catch (error) {
       if (error instanceof BodyValidationError) return badRequest(error);
       if (error instanceof UserAlreadyExistsError) return badRequest(error);
