@@ -1,18 +1,12 @@
-import { UserEntity } from '@/data/entities';
+import { User } from '@/domain/models';
 
 export class LocalMemoryUserEntity {
   id: number;
-
   email: string;
-
   name: string;
-
   password: string;
-
   birth_date: Date;
-
   created_at: Date;
-
   updated_at: Date;
 
   static parse({
@@ -20,7 +14,7 @@ export class LocalMemoryUserEntity {
     createdAt,
     updatedAt,
     ...restEntity
-  }: UserEntity): LocalMemoryUserEntity {
+  }: User): LocalMemoryUserEntity {
     return {
       ...restEntity,
       birth_date: birthDate,
@@ -34,8 +28,8 @@ export class LocalMemoryUserEntity {
     created_at,
     updated_at,
     ...restEntity
-  }: LocalMemoryUserEntity): UserEntity {
-    return new UserEntity({
+  }: LocalMemoryUserEntity): User {
+    return new User({
       ...restEntity,
       birthDate: birth_date,
       createdAt: created_at,

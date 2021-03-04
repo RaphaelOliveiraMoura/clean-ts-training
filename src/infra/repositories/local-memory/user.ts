@@ -1,7 +1,8 @@
 import { LocalMemoryUserEntity } from './entities';
 
 import { UserRepository } from '@/data/contracts';
-import { UserEntity, UserEntityDTO } from '@/data/entities';
+import { User } from '@/domain/models';
+import { CreateUser } from '@/domain/use-cases';
 
 const users: Array<LocalMemoryUserEntity> = [];
 
@@ -10,9 +11,9 @@ export class LocalMemoryUserRepository implements UserRepository {
     return users.length;
   }
 
-  async create(user: UserEntityDTO): Promise<UserEntity> {
+  async create(user: CreateUser.Params): Promise<User> {
     const id = users.length;
-    const userEntity = new UserEntity({
+    const userEntity = new User({
       ...user,
       id,
       birthDate: new Date(user.birthDate),
@@ -24,7 +25,7 @@ export class LocalMemoryUserRepository implements UserRepository {
     return LocalMemoryUserEntity.unparse(parsedUser);
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async findByEmail(email: string): Promise<User> {
     const findedUser = users.find((user) => user.email === email);
 
     if (!findedUser) return null;

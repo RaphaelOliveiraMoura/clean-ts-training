@@ -2,34 +2,26 @@ import { InvalidBirthDateError } from '@/domain/errors';
 import { Validation } from '@/validation/contracts';
 import { DateValidator } from '@/validation/validators';
 
-type UserConstructor = {
-  id: number;
-  email: string;
-  name: string;
-  birthDate: Date;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 export class User {
   id: number;
-
   email: string;
-
   name: string;
-
   birthDate: Date;
-
   password: string;
-
   createdAt: Date;
-
   updatedAt: Date;
 
   private birthDateValidator: Validation;
 
-  constructor(params: UserConstructor) {
+  constructor(params: {
+    id: number;
+    email: string;
+    name: string;
+    birthDate: Date;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }) {
     Object.assign(this, params);
 
     this.birthDateValidator = new DateValidator('birthDate', { past: true });

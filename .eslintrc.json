@@ -18,6 +18,11 @@
     "no-empty-function": "off",
     "no-use-before-define": "off",
     "max-classes-per-file": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ],
 
     // Disabling conflict rules
     "no-unused-vars": "off",
